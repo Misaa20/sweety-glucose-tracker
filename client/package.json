@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "scripts": { "dev": "vite --host 127.0.0.1", "build": "vite build", "test": "vitest run" },
+  "scripts": {
+    "dev": "vite --host localhost",
+    "build": "vite build",
+    "test": "vitest run"
+  },
   "dependencies": {
     "@sweety/shared": "1.0.0",
     "lucide-react": "^0.468.0",
