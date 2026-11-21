@@ -15,5 +15,33 @@ services:
       timeout: 3s
       retries: 20
 
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:${DOCKER_APP_PORT:-3001}:3001"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-sweety}:${POSTGRES_PASSWORD:-local_dev_password}@db:5432/${POSTGRES_DB:-sweety}
+      PORT: 3001
+      CLIENT_ORIGIN: ${DOCKER_CLIENT_ORIGIN:-http://localhost:3001}
+      APP_TIMEZONE: ${APP_TIMEZONE:-Asia/Kolkata}
+      # This Compose setup is for local HTTP use. Set production behind HTTPS.
+      NODE_ENV: development
+      DEMO_EMAIL: ${DEMO_EMAIL:-demo@sweety.local}
+      DEMO_PASSWORD: ${DEMO_PASSWORD:-SweetyDemo123!}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3001/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
 volumes:
   sweety_data:

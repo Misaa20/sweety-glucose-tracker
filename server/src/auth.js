@@ -57,7 +57,7 @@ export function createAuth(pool, config, { bcryptRounds = 12, rateLimitMax = 20 
       errors.password = 'Password must be at least 8 characters and no more than 72 bytes.';
     }
     validateBody(errors);
-    return { name: name?.trim(), email: email.trim().toLowerCase(), password };
+    return { name: registering ? name.trim() : undefined, email: email.trim().toLowerCase(), password };
   }
 
   router.post('/register', limiter, async (req, res) => {

@@ -42,6 +42,8 @@ describe('Authentication with PostgreSQL', () => {
     await request.post('/api/auth/register').send({ name: 'Era', email: 'valid@example.com', password: '🙂'.repeat(20) }).expect(400);
     await request.post('/api/auth/login').send({ email: 'era@example.com', password: 'WrongPassword123!' }).expect(401);
     await request.post('/api/auth/login').send({ email: 'missing@example.com', password: 'WrongPassword123!' }).expect(401);
+    // Unused fields must not turn otherwise valid login requests into server errors.
+    await request.post('/api/auth/login').send({ name: {}, email: 'era@example.com', password: 'SafePassword123!' }).expect(200);
   });
 
   it('rejects expired sessions and cross-origin mutation requests', async () => {
