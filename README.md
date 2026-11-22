@@ -283,6 +283,10 @@ scripts/            Screenshot capture helper
 
 ## Screenshots and demo
 
+Watch the **[captioned app walkthrough (MP4, 2:46)](docs/demo/sweety-demo.mp4)**. The recording shows actual patient and doctor flows, validation, CRUD, all reports, the chart, pagination, patient isolation and live Redis/BullMQ checks. It is silent, with captions embedded in the video. A [WebVTT caption file](docs/demo/sweety-demo.vtt) is included.
+
+The [recording notes](docs/demo/README.md) explain how to reproduce it.
+
 Real screenshots from the running application are included:
 
 - [Login](docs/screenshots/login.png)

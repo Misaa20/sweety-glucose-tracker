@@ -1,4 +1,8 @@
-# Optional 2–3 minute demo walkthrough
+# Demo recording and walkthrough
+
+The finished **[captioned MP4 recording](demo/sweety-demo.mp4)** is included, along with [captions](demo/sweety-demo.vtt) and [reproduction instructions](demo/README.md). The recording uses real browser interactions and backend responses, with no narration. The newly added reading is deleted and the temporary signup account is removed afterward.
+
+The following outline is also available if you want to record your own narration:
 
 Screenshots are already included and satisfy the assignment's visual submission requirement. If recording a demo, start the database and app using the README and run the seed once.
 

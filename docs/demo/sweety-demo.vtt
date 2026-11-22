@@ -1,0 +1,49 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:08.008
+Welcome to Sweety
+A simple glucose journal built with React, Express, Node.js and PostgreSQL.
+
+00:00:08.008 --> 00:00:18.010
+Patient login
+Sign in to a private journal. Passwords remain masked throughout this recording.
+
+00:00:18.080 --> 00:00:30.093
+Four daily check-ins
+Record a date, one of four meal-time slots, and a whole-number glucose value in mg/dl.
+
+00:00:30.093 --> 00:00:52.108
+Validation and a new reading
+Clear errors catch missing values, values outside 40–600 mg/dl, duplicate slots and full days.
+
+00:00:52.108 --> 00:01:10.113
+Edit and delete
+Correct a reading, then delete it with confirmation. Reports update after every change.
+
+00:01:10.114 --> 00:01:30.117
+Daily and monthly reports
+See highest, lowest, one-decimal average and count for the selected day, month to date and previous full month.
+
+00:01:30.117 --> 00:01:40.120
+Monthly chart
+Explore daily averages over the month, with an accessible table of exact dates, averages and reading counts.
+
+00:01:40.120 --> 00:01:52.123
+Paginated history
+Review saved readings in date order and move between pages. Each row supports editing and deletion.
+
+00:01:52.123 --> 00:02:08.134
+Patient privacy
+A newly registered patient starts with an empty journal and cannot see another patient’s readings.
+
+00:02:08.134 --> 00:02:26.143
+Doctor workspace
+Doctors see read-only daily and monthly reports for assigned patients, with the same chart and date controls.
+
+00:02:26.143 --> 00:02:40.149
+Live bonus verification
+Redis caches report results. BullMQ queues daily reminder logs, with no duplicate patient/day records.
+
+00:02:40.149 --> 00:02:46.161
+Ready to review
+The repository includes setup instructions, environment examples, demo data, screenshots and 40 passing tests.

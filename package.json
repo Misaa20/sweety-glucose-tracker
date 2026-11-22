@@ -24,6 +24,7 @@
     "test:client": "npm run test -w client",
     "test:e2e": "playwright test",
     "screenshots": "node scripts/capture-screenshots.mjs",
+    "demo:record": "node scripts/record-demo.mjs",
     "build": "npm run build -w client",
     "start": "npm run start -w server"
   },
