@@ -15,11 +15,31 @@ services:
       timeout: 3s
       retries: 20
 
+  redis:
+    image: redis:7-alpine
+    command:
+      [
+        "redis-server",
+        "--appendonly",
+        "yes",
+        "--maxmemory-policy",
+        "noeviction",
+      ]
+    ports:
+      - "127.0.0.1:${REDIS_PORT:-6381}:6379"
+    volumes:
+      - sweety_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
   app:
     build: .
     ports:
       - "127.0.0.1:${DOCKER_APP_PORT:-3001}:3001"
-    environment:
+    environment: &app_environment
       DATABASE_URL: postgresql://${POSTGRES_USER:-sweety}:${POSTGRES_PASSWORD:-local_dev_password}@db:5432/${POSTGRES_DB:-sweety}
       PORT: 3001
       CLIENT_ORIGIN: ${DOCKER_CLIENT_ORIGIN:-http://localhost:3001}
@@ -28,8 +48,15 @@ services:
       NODE_ENV: development
       DEMO_EMAIL: ${DEMO_EMAIL:-demo@sweety.local}
       DEMO_PASSWORD: ${DEMO_PASSWORD:-SweetyDemo123!}
+      DEMO_DOCTOR_EMAIL: ${DEMO_DOCTOR_EMAIL:-doctor@sweety.local}
+      DEMO_DOCTOR_PASSWORD: ${DEMO_DOCTOR_PASSWORD:-SweetyDoctor123!}
+      REDIS_URL: redis://redis:6379/0
+      REPORT_CACHE_TTL: ${REPORT_CACHE_TTL:-300}
+      REMINDER_CRON: ${REMINDER_CRON:-0 21 * * *}
     depends_on:
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     healthcheck:
       test:
@@ -43,5 +70,17 @@ services:
       timeout: 5s
       retries: 10
 
+  worker:
+    build: .
+    environment: *app_environment
+    command: ["node", "server/src/worker.js"]
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
 volumes:
   sweety_data:
+  sweety_redis:

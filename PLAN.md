@@ -30,12 +30,16 @@ The assignment says MERN but explicitly requires PostgreSQL, so PostgreSQL repla
 - [x] README install/database/server/client/tests/assumptions/improvements instructions.
 - [x] Environment example, demo seed, screenshots and incremental commits.
 
-## Selected optional bonuses
+## Optional bonuses
 
 - [x] Paginated `GET /api/readings?page=1&limit=20`.
 - [x] Monthly reading chart.
 - [x] Docker Compose for PostgreSQL and the complete application.
 - [x] React Testing Library tests for the reading form.
 
-Redis, BullMQ and doctor/patient accounts are optional and outside this implementation.
+- [x] Redis report caching with invalidation, revision protection and outage fallback.
+- [x] BullMQ daily reminder worker with persistent, idempotent patient/day logs.
+- [x] Doctor accounts and read-only assigned-patient reports, demo seed and assignment script.
+
+All seven bonus tasks follow the completed required patient workflow.
 No AI integration is requested by the product brief.

@@ -1,4 +1,60 @@
 import { test, expect } from "@playwright/test";
+import "../server/src/config.js";
+
+test("doctor can view only assigned patients and cannot change readings", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByLabel("Email address")
+    .fill(process.env.DEMO_DOCTOR_EMAIL || "doctor@sweety.local");
+  await page
+    .getByLabel("Password", { exact: true })
+    .fill(process.env.DEMO_DOCTOR_PASSWORD || "SweetyDoctor123!");
+  await page.getByRole("button", { name: "Log in", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Your patients, at a glance." }),
+  ).toBeVisible();
+  await expect(page.getByLabel("Assigned patient")).toContainText(
+    "Alex Morgan",
+  );
+  await expect(
+    page.getByRole("article", { name: "Daily report" }),
+  ).toBeVisible();
+  await expect(page.getByText("Read-only reports")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Add reading", exact: true }),
+  ).toHaveCount(0);
+  expect(
+    (
+      await page.request.get("/api/doctor/patients/2147483647/reports")
+    ).status(),
+  ).toBe(404);
+  expect(
+    (
+      await page.request.post("/api/readings", {
+        data: { date: "2026-01-10", slot: "morning", value: 100 },
+      })
+    ).status(),
+  ).toBe(403);
+  await page.getByLabel("Report date").fill("2026-10-15");
+  await expect(
+    page.getByRole("article", { name: "Previous month" }),
+  ).toContainText("1 Sept – 30 Sept 2026");
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "Your patients, at a glance." }),
+  ).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await page.getByRole("button", { name: "Log out", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Welcome back." }),
+  ).toBeVisible();
+});
 
 test("patient journey: registration, validation, CRUD, reports, isolation and login", async ({
   page,

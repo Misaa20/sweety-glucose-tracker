@@ -10,6 +10,9 @@ export default defineConfig(() => {
   const env = existsSync(envPath) ? parse(readFileSync(envPath)) : {};
   return {
     plugins: [react()],
+    optimizeDeps: {
+      include: ["react", "react-dom/client", "lucide-react", "recharts"],
+    },
     server: {
       port: 5173,
       strictPort: true,

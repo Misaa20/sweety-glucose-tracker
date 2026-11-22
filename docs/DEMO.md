@@ -10,3 +10,5 @@ Screenshots are already included and satisfy the assignment's visual submission 
 6. **2:15–2:45 — Ownership and mobile:** log out, register a separate account, and show its empty journal. Resize the window or use browser mobile emulation to show the responsive dashboard.
 
 Keep the repository README visible at the end to show installation, database setup, tests and assumptions. Do not show your `.env` or any private credentials in the recording.
+
+For the remaining bonuses, log in as `doctor@sweety.local` / `SweetyDoctor123!` and show the assigned patient's read-only reports. In browser Network tools, load a report twice to see `X-Report-Cache` move from `MISS` to `HIT`; editing a reading invalidates the reports. With `npm run worker` running, run `npm run reminders:run` and show its logs. Repeating it on the same day creates no duplicate daily records.

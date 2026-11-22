@@ -4,6 +4,7 @@ import { api } from "./api.js";
 import { AuthScreen } from "./components/AuthScreen.jsx";
 import { Brand } from "./components/Brand.jsx";
 import { Dashboard } from "./Dashboard.jsx";
+import { DoctorDashboard } from "./DoctorDashboard.jsx";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -94,8 +95,9 @@ export default function App() {
         }}
       />
     );
+  const Workspace = user.role === "doctor" ? DoctorDashboard : Dashboard;
   return (
-    <Dashboard
+    <Workspace
       user={user}
       meta={meta}
       onLogout={() => {

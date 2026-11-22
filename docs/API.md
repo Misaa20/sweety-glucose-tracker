@@ -10,7 +10,7 @@ Development base URL: `http://localhost:3001/api`. The React app uses relative `
 { "name": "Era", "email": "era@example.com", "password": "ChooseYourOwn123!" }
 ```
 
-Returns `201` with `{ "user": { "id": 1, "name": "Era", "email": "era@example.com" } }` and sets a `sweety_session` cookie. Emails are trimmed and normalized to lowercase. Names are 1–100 characters; passwords are at least 8 characters and at most 72 UTF-8 bytes. Email uniqueness is enforced by PostgreSQL.
+Returns `201` with `{ "user": { "id": 1, "name": "Era", "email": "era@example.com", "role": "patient" } }` and sets a `sweety_session` cookie. Emails are trimmed and normalized to lowercase. Names are 1–100 characters; passwords are at least 8 characters and at most 72 UTF-8 bytes. Email uniqueness is enforced by PostgreSQL.
 
 `POST /auth/login` accepts `email` and `password`, returning the same public user shape with `200`. Incorrect credentials return `401`; duplicate registration returns `409`. The register/login endpoints share a limit of 20 attempts per IP per 15-minute window and return `429` when exceeded.
 
@@ -116,6 +116,22 @@ Defaults: page `1`, limit `20`. Limit must be 1–100; page must be 1–1,000,00
 ```
 
 `date` defaults to today. Invalid or future dates return `400`. Summary boundaries are inclusive; `monthly` always means the complete previous calendar month. `readings` contains the selected day's readings in slot order. `trend` contains recorded days from the entire selected month, with that day's average and count. JSON numbers do not retain a trailing `.0`; the UI formats every average with one decimal place.
+
+## Doctor access
+
+Public registration always creates `role: "patient"`, ignoring a supplied role. Login and `/auth/me` responses include `role` for both patients and doctors. Roles are loaded from PostgreSQL on each request. Doctor accounts cannot use patient `/readings` or `/reports` endpoints.
+
+`GET /doctor/patients` returns `{ "patients": [{ "id": 1, "name": "Alex Morgan", "email": "demo@sweety.local" }] }`, containing only assigned patients. `GET /doctor/patients/1/reports?date=2026-10-15` returns the normal report shape plus the `patient` object. The same report date validation applies.
+
+Unassigned/missing patients return `404`, malformed IDs return `400`, a patient session returns `403`, and no session returns `401`. Assignment checks run before every lookup, including cache hits. Doctor provisioning/assignment management use trusted seed/operator scripts documented in the README; there are no public role-management or assignment endpoints.
+
+## Report caching
+
+Report responses include `X-Report-Cache: HIT`, `MISS` or `BYPASS`. Redis keys include patient ID, database report revision and report date, with a 300-second default expiry. Reading mutations clear all cached dates for the patient. A PostgreSQL trigger updates the revision atomically, preventing stale concurrent cache fills from being reused and covering seed/direct SQL changes. Redis errors fall back to PostgreSQL. Browser responses remain `Cache-Control: no-store`.
+
+## Reminder worker
+
+`npm run worker` starts the BullMQ consumer and upserts a daily scheduler (`REMINDER_CRON`, default `0 21 * * *`, in `APP_TIMEZONE`). It creates `reminder_logs` records and structured console lines for patients with fewer than four readings, excluding doctors. A unique `(user_id,date)` constraint prevents duplicate daily records. `npm run reminders:run -- 2026-10-15` queues an immediate check for a past date; omitting the date uses today. No HTTP endpoint exposes worker/job administration.
 
 ## Errors
 

@@ -2597,9 +2597,189 @@ td .muted,
   }
 }
 /* Use stronger contrast for supporting text, including the mobile layout. */
-.muted,.breadcrumb,.topbar-note,.timezone-note,.section-meta,.report-range,.average-label,.report-subtitle,.chart-caption,.chart-legend,.chart-data,.pending-label,.slot-hint,.slot-value>span,.report-average>span,.dashboard-footer,.privacy-note,.user-card>div>span,.auth-private,.auth-bottom,.auth-switch,.story-footer,.story-benefits,.field-hint,.count-badge{color:#786c85}
-.nav-button{color:#756780}.slot-actions .text-button,.slot-add,.date-control label,.date-control input,.date-today,.report-extremes,.report-extremes strong{color:#806792}.recorded-label{color:#427d64}.welcome-banner p{color:#84669e}.banner-label{color:#87659f}.sidebar-note p{color:#867494}.auth-story .story-content>p{color:#786586}.preview-bottom,.story-preview>p{color:#857193}.report-empty p,.report-empty span,.chart-empty h3,.chart-empty p{color:#867194}
-@media(max-width:760px){.report-card{display:flex;flex-direction:column;gap:0}.report-average{align-self:flex-start;justify-self:auto;text-align:left;grid-column:auto;grid-row:auto}.report-title,.report-range,.report-extremes,.report-subtitle{width:100%}.average-label{align-self:flex-start}.banner-label{font-size:.6875rem}.pending-label{color:#80708c}}
+.muted,
+.breadcrumb,
+.topbar-note,
+.timezone-note,
+.section-meta,
+.report-range,
+.average-label,
+.report-subtitle,
+.chart-caption,
+.chart-legend,
+.chart-data,
+.pending-label,
+.slot-hint,
+.slot-value > span,
+.report-average > span,
+.dashboard-footer,
+.privacy-note,
+.user-card > div > span,
+.auth-private,
+.auth-bottom,
+.auth-switch,
+.story-footer,
+.story-benefits,
+.field-hint,
+.count-badge {
+  color: #786c85;
+}
+.nav-button {
+  color: #756780;
+}
+.slot-actions .text-button,
+.slot-add,
+.date-control label,
+.date-control input,
+.date-today,
+.report-extremes,
+.report-extremes strong {
+  color: #806792;
+}
+.recorded-label {
+  color: #427d64;
+}
+.welcome-banner p {
+  color: #84669e;
+}
+.banner-label {
+  color: #87659f;
+}
+.sidebar-note p {
+  color: #867494;
+}
+.auth-story .story-content > p {
+  color: #786586;
+}
+.preview-bottom,
+.story-preview > p {
+  color: #857193;
+}
+.report-empty p,
+.report-empty span,
+.chart-empty h3,
+.chart-empty p {
+  color: #867194;
+}
+@media (max-width: 760px) {
+  .report-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .report-average {
+    align-self: flex-start;
+    justify-self: auto;
+    text-align: left;
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .report-title,
+  .report-range,
+  .report-extremes,
+  .report-subtitle {
+    width: 100%;
+  }
+  .average-label {
+    align-self: flex-start;
+  }
+  .banner-label {
+    font-size: 0.6875rem;
+  }
+  .pending-label {
+    color: #80708c;
+  }
+}
+.doctor-role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border: 1px solid #dfd5f3;
+  background: #f3eefb;
+  color: #755899;
+  border-radius: 9px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+.doctor-filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 27px;
+}
+.doctor-filters .field {
+  margin-bottom: 0;
+  min-width: 175px;
+}
+.doctor-filters .field:first-child {
+  flex: 1;
+  max-width: 470px;
+}
+.doctor-filters .button {
+  height: 47px;
+}
+.doctor-filters .timezone-note {
+  align-self: center;
+}
+.doctor-patient-heading {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  margin: 26px 0;
+}
+.doctor-patient-heading .avatar {
+  width: 45px;
+  height: 45px;
+}
+.doctor-patient-heading .muted {
+  font-size: 0.875rem;
+}
+.doctor-readonly {
+  margin-left: auto;
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  font-size: 0.8125rem;
+  color: #786c85;
+}
+.doctor-empty-day {
+  padding: 0 24px 23px;
+}
+.doctor-shell .sidebar nav .nav-button {
+  cursor: default;
+}
+@media (max-width: 760px) {
+  .doctor-role-badge {
+    font-size: 0.75rem;
+    padding: 8px 10px;
+    margin-top: 24px;
+  }
+  .doctor-shell .sidebar nav .nav-button {
+    justify-content: flex-start;
+  }
+  .doctor-filters .field:first-child {
+    flex-basis: 100%;
+    max-width: none;
+  }
+  .doctor-filters .field {
+    min-width: 0;
+  }
+  .doctor-filters .timezone-note {
+    width: 100%;
+  }
+  .doctor-patient-heading {
+    flex-wrap: wrap;
+  }
+  .doctor-readonly {
+    width: 100%;
+    margin-left: 0;
+  }
+  .doctor-filters .button {
+    font-size: 0.8125rem;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

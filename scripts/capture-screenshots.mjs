@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "@playwright/test";
 import "../server/src/config.js";
 
-const baseURL = "http://localhost:5173";
+const baseURL = process.argv[2] || "http://localhost:5173";
 const directory = new URL("../docs/screenshots/", import.meta.url);
 await mkdir(directory, { recursive: true });
 const browser = await chromium.launch();
@@ -68,7 +68,32 @@ try {
     path: fileURLToPath(new URL("mobile.png", directory)),
     fullPage: true,
   });
-  console.log("Saved six app screenshots to docs/screenshots.");
+  await page.getByRole("button", { name: "Log out", exact: true }).click();
+  await page.setViewportSize({ width: 1440, height: 1080 });
+  await page
+    .getByLabel("Email address")
+    .fill(process.env.DEMO_DOCTOR_EMAIL || "doctor@sweety.local");
+  await page
+    .getByLabel("Password", { exact: true })
+    .fill(process.env.DEMO_DOCTOR_PASSWORD || "SweetyDoctor123!");
+  await page.getByRole("button", { name: "Log in", exact: true }).click();
+  await page
+    .getByRole("heading", { name: "Patient report summaries" })
+    .waitFor();
+  await page.getByRole("img", { name: /Line chart/ }).waitFor();
+  await page.screenshot({
+    path: fileURLToPath(new URL("doctor.png", directory)),
+    fullPage: true,
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.waitForFunction(
+    () => document.documentElement.scrollWidth <= window.innerWidth,
+  );
+  await page.screenshot({
+    path: fileURLToPath(new URL("doctor-mobile.png", directory)),
+    fullPage: true,
+  });
+  console.log("Saved eight app screenshots to docs/screenshots.");
 } finally {
   await browser.close();
 }
